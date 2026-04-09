@@ -231,25 +231,34 @@
         
         <div class="detail-preview" v-if="currentRecord.url">
           <h4>生成结果</h4>
-          <div class="preview-image-wrapper">
+          <!-- 图片预览 -->
+          <div v-if="currentRecord.type === 'image'" class="preview-image-wrapper">
             <img 
-              v-if="currentRecord.type === 'image'" 
               :src="currentRecord.url" 
               class="detail-image"
             />
           </div>
+          <!-- 视频预览 -->
           <div v-else-if="currentRecord.type === 'video'" class="video-container">
             <video 
+              v-if="!videoError"
               :src="currentRecord.url"
               controls
               class="detail-video"
               @error="handleVideoError"
+              crossorigin="anonymous"
             />
-            <div v-if="videoError" class="video-error">
-              <p>视频加载失败</p>
-              <a-button type="primary" @click="openVideoInNewTab">
-                在新标签页打开
-              </a-button>
+            <div v-else class="video-error-fallback">
+              <VideoCameraOutlined class="error-icon" />
+              <p>视频无法在页面内播放（可能是跨域限制）</p>
+              <a-space>
+                <a-button type="primary" @click="openVideoInNewTab">
+                  <ExportOutlined /> 在新标签页播放
+                </a-button>
+                <a-button @click="copyVideoUrl">
+                  <CopyOutlined /> 复制链接
+                </a-button>
+              </a-space>
             </div>
           </div>
         </div>
@@ -281,6 +290,7 @@ import {
   FileImageOutlined,
   VideoCameraOutlined,
   ExportOutlined,
+  CopyOutlined,
 } from '@ant-design/icons-vue'
 
 // 统计数据
@@ -576,6 +586,15 @@ const handleBatchDownload = () => {
   message.info('开始批量下载...')
 }
 
+// 复制视频链接
+const copyVideoUrl = () => {
+  if (currentRecord.value?.url) {
+    navigator.clipboard.writeText(currentRecord.value.url)
+      .then(() => message.success('视频链接已复制'))
+      .catch(() => message.error('复制失败'))
+  }
+}
+
 onMounted(() => {
   loadData()
 })
@@ -708,6 +727,25 @@ onMounted(() => {
         p {
           margin-bottom: 16px;
           color: #999;
+        }
+      }
+      
+      .video-error-fallback {
+        padding: 40px 24px;
+        text-align: center;
+        background: #f5f5f5;
+        border-radius: 8px;
+        
+        .error-icon {
+          font-size: 48px;
+          color: #d9d9d9;
+          margin-bottom: 16px;
+        }
+        
+        p {
+          color: #8c8c8c;
+          margin-bottom: 24px;
+          font-size: 14px;
         }
       }
     }
