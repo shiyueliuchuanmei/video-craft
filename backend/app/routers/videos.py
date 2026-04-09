@@ -97,6 +97,59 @@ async def create_video_generation(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/generations")
+async def get_video_generations(
+    page: int = 1,
+    page_size: int = 10,
+    status: Optional[str] = None,
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """获取视频生成任务列表"""
+    try:
+        user_id = current_user["id"]
+        
+        # 获取视频任务列表
+        result = await db.execute(
+            text("""
+                SELECT task_id, prompt, status, model, created_at, completed_at, output_urls 
+                FROM tasks 
+                WHERE task_type = 'video' AND user_id = :user_id
+                ORDER BY created_at DESC
+                LIMIT :limit OFFSET :offset
+            """),
+            {"user_id": user_id, "limit": page_size, "offset": (page - 1) * page_size}
+        )
+        
+        tasks = []
+        for row in result.fetchall():
+            tasks.append({
+                "id": row.task_id,
+                "type": "video",
+                "prompt": row.prompt,
+                "status": row.status,
+                "model": row.model,
+                "created_at": row.created_at.isoformat() if row.created_at else None,
+                "completed_at": row.completed_at.isoformat() if row.completed_at else None,
+                "url": row.output_urls,
+            })
+        
+        return {
+            "code": 200,
+            "data": {
+                "tasks": tasks,
+                "total": len(tasks),
+                "page": page,
+                "page_size": page_size,
+            }
+        }
+    except Exception as e:
+        import traceback
+        print(f"Error in get_video_generations: {e}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/generations/{task_id}")
 async def get_video_generation(
     task_id: str,
