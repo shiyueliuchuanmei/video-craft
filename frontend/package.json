@@ -1,7 +1,8 @@
 {
   "name": "videocraft-frontend",
   "version": "1.0.0",
-  "description": "VideoCraft 前端 - 电商视频智能创作平台",
+  "description": "VideoCraft 前端 - 电商视频智能创作平台 | 广州十月六传媒有限公司",
+  "author": "广州十月六传媒有限公司 <McrobbieStruzik518@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",

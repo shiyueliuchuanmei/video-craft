@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     
     # CORS 配置
-    CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
+    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:5174"
     
     # 文件存储配置
     STORAGE_TYPE: str = "local"  # local 或 oss

@@ -5,6 +5,8 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-teal.svg)](https://fastapi.tiangolo.com/)
 
 > 电商视频智能创作平台 - 基于火山引擎豆包大模型的 AI 视频/图片生成工具
+>
+> 由 [广州十月六传媒有限公司](mailto:McrobbieStruzik518@gmail.com) 开发维护
 
 ![VideoCraft Screenshot](./screenshots/dashboard.png)
 
@@ -277,9 +279,10 @@ npm run dev
 
 ## 📞 联系我们
 
-- 项目主页: https://github.com/yourusername/video-craft
-- Issue 反馈: https://github.com/yourusername/video-craft/issues
-- 邮箱: your-email@example.com
+- **公司**: 广州十月六传媒有限公司
+- **项目主页**: https://github.com/shiyueliuchuanmei/video-craft
+- **Issue 反馈**: https://github.com/shiyueliuchuanmei/video-craft/issues
+- **邮箱**: [McrobbieStruzik518@gmail.com](mailto:McrobbieStruzik518@gmail.com)
 
 ---
 

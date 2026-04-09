@@ -79,6 +79,14 @@ async def create_video_generation(
             task_id=task_id,
             model=request.model,
             prompt=request.prompt,
+            negative_prompt=request.negative_prompt,
+            mode=request.mode,
+            ratio=request.ratio,
+            resolution=request.resolution,
+            duration=request.duration,
+            num=request.num,
+            with_audio=request.with_audio,
+            image_url=request.image_url,
             user_id=current_user["id"]
         )
         
