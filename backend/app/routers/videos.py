@@ -123,14 +123,24 @@ async def get_video_generations(
         
         tasks = []
         for row in result.fetchall():
+            # 处理日期格式 - 可能是字符串或 datetime 对象
+            from datetime import datetime
+            created_at = row.created_at
+            if isinstance(created_at, datetime):
+                created_at = created_at.isoformat()
+            
+            completed_at = row.completed_at
+            if isinstance(completed_at, datetime):
+                completed_at = completed_at.isoformat()
+            
             tasks.append({
                 "id": row.task_id,
                 "type": "video",
                 "prompt": row.prompt,
                 "status": row.status,
                 "model": row.model,
-                "created_at": row.created_at.isoformat() if row.created_at else None,
-                "completed_at": row.completed_at.isoformat() if row.completed_at else None,
+                "created_at": created_at,
+                "completed_at": completed_at,
                 "url": row.output_urls,
             })
         
